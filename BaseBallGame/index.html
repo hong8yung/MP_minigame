@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html ng-app="baseBallApp">
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
+        <script src="Bot.js"></script>
+        <script src="hongyung.js"></script>
+    </head>
+    <body>
+        <div class="pure-g" ng-controller="Controller">
+            Challenge Result
+            Input - Submit
+            <form ng-submit="resInput()" class="pure-form">
+                <fieldset>
+                    <input type="number" ng-model="resuslt" placeholder="write result">
+                    <input ng-if="gameStatus=='ready'" type="submit" id="submitBtn" class="pure-button pure-button-primary" value="start">
+                    <input ng-if="gameStatus=='play'" type="submit" id="submitBtn" class="pure-button-primary" value="submit">
+                    <input ng-if="gameStatus=='over'" type="submit" id="submitBtn" class="pure-button-primary" value="restart">
+                </fieldset>
+            </form>
+        </div>
+    </body>
+</html>
