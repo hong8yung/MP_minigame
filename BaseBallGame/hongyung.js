@@ -33,13 +33,14 @@
                 botGuessNumbers = bot.getNextGuess();
                 $scope.botHistory.push({numbers:botGuessNumbers.toString(), checkResult:checkResult});
             }else if($scope.gameStatus == 'play'){
-                console.log($scope.result);
-
-                botGuessNumbers = bot.getNextGuess();
                 checkResult = new CheckResult(false, $scope.sfiled, $scope.bfiled);
-                $scope.botHistory.push({numbers:botGuessNumbers.toString(), checkResult:checkResult});
-                console.log(botGuessNumbers.toString());
+
                 $scope.resultHistory.push({numbers:botGuessNumbers.toString(), checkResult:checkResult});
+
+                bot.guessResultIn(botGuessNumbers, checkResult)
+                botGuessNumbers = bot.getNextGuess();
+
+                $scope.botHistory.push({numbers:botGuessNumbers.toString(), checkResult:checkResult});
 
                 $scope.result = "";
                 $scope.sfiled = 0;
@@ -77,7 +78,6 @@
 								+ ' -> ' 
 								+ '<p class="rbtn pure-button">{{gameHistory.checkResult.strikeCount}}S  {{gameHistory.checkResult.ballCount}}B</p>'
 								+ '</p>'
-						// ,templateUrl: 'history_template.html'
         };
     });
 })();

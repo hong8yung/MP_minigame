@@ -21,15 +21,18 @@ Bot.prototype = {
     },
     guessResultIn: function(guessed, checkResult){
         if(!checkResult.isSame){
+            console.log(this.remainders.size());
             this.history.push(new NumbersHistory(guessed, checkResult));
             var setReducer = new SetReducerFactory().getSetReducer(checkResult);
             this.remainders.reduce(setReducer(guessed));
+            console.log(setReducer);
+            console.log(this.remainders.size());
         }
     }
 }
 
 function NumbersHistory(numbers, result){
-    this.timeStamp = new DataCue();
+    this.timeStamp = new Date();
     this.numbers;
     this.result;
 }
@@ -43,9 +46,9 @@ NumbersFactory.prototype = {
     },
     createAllPossibilities: function(){
         var set = new Set();
-        for(var i=0; i<10; i++)
-            for(var j=0; j<10; j++)
-                for(var k=0; k<10; k++)
+        for(var i=1; i<10; i++)
+            for(var j=1; j<10; j++)
+                for(var k=1; k<10; k++)
                     if(i!=j && j!=k && i!=k) set.add(new Numbers(i, j, k));
 
         return set;
@@ -71,13 +74,16 @@ Numbers.prototype = {
         }
         return false;
     },
+    at: function(i){
+        return this.data[i];
+    },
     contains: function(i){
         for(var j=0; j<this.data.length; j++)
             if(this.data[j]==i) return true;
         return false;
     },
-    containButNotSamePosition: function(i, position){
-        for(var i=0; j<this.data.length; j++)
+    containsButNotSamePosition: function(i, position){
+        for(var j=0; j<this.data.length; j++)
             if(position!=j && this.data[j]==i) return true;
         return false;
     },
@@ -153,7 +159,7 @@ function OneBallSetReducer(numbers){
         if(numbers.equals(next)) return true;
         var contains = false;
         for(var i=0; i<3; i++){
-            if(next.containButNotSamePosition(numbers.at(i), i)){
+            if(next.containsButNotSamePosition(numbers.at(i), i)){
                 contains = true;
                 for(var j=0; j<3; j++){
                     if(i!=j){
@@ -172,9 +178,9 @@ function OneBallSetReducer(numbers){
 function TwoBallSetReducer(numbers){
     return function(next){
         if(numbers.equals(next)) return true;
-        var a = next.containButNotSamePosition(numbers.at(0), 0) && next.containButNotSamePosition(numbers.at(1), 1);
-        var a1 = next.containButNotSamePosition(numbers.at(0), 0) && next.containButNotSamePosition(numbers.at(2), 2);
-        var a2 = next.containButNotSamePosition(numbers.at(1), 1) && next.containButNotSamePosition(numbers.at(2), 2);
+        var a = next.containsButNotSamePosition(numbers.at(0), 0) && next.containsButNotSamePosition(numbers.at(1), 1);
+        var a1 = next.containsButNotSamePosition(numbers.at(0), 0) && next.containsButNotSamePosition(numbers.at(2), 2);
+        var a2 = next.containsButNotSamePosition(numbers.at(1), 1) && next.containsButNotSamePosition(numbers.at(2), 2);
 
         a = a||a1||a2;
         if(!a) return true;
