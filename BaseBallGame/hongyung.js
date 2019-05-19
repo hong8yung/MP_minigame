@@ -5,11 +5,20 @@
         $scope.botHistory = [];
         $scope.result;
         $scope.resultHistory = [];
+        $scope.sfiled = 0;
+        $scope.bfiled = 0;
 
         var bot;
         var botGuessNumbers;
         var checkResult;
 
+        $scope.$watch('result', function(){
+            if($scope.result){
+                console.log("empty?: "+$scope.result);
+                $scope.sfiled = Number($scope.result.charAt(0));
+                $scope.bfiled = Number($scope.result.charAt(2));
+            }
+        });
         $scope.resInput = function(){
             if($scope.gameStatus == 'ready'){
                 $scope.gameStatus = 'play';
@@ -23,19 +32,35 @@
 
                 botGuessNumbers = bot.getNextGuess();
                 $scope.botHistory.push({numbers:botGuessNumbers.toString(), checkResult:checkResult});
-                console.log("first : "+botGuessNumbers.toString());
             }else if($scope.gameStatus == 'play'){
-                console.log($scope.result)
-                $scope.result = "";
+                console.log($scope.result);
 
                 botGuessNumbers = bot.getNextGuess();
+                checkResult = new CheckResult(false, $scope.sfiled, $scope.bfiled);
                 $scope.botHistory.push({numbers:botGuessNumbers.toString(), checkResult:checkResult});
                 console.log(botGuessNumbers.toString());
+                $scope.resultHistory.push({numbers:botGuessNumbers.toString(), checkResult:checkResult});
+
+                $scope.result = "";
+                $scope.sfiled = 0;
+                $scope.bfiled = 0;
             }else if($scope.gameStatus == 'over'){
                 $scope.gameStatus = 'ready';
             }
         };
+        $scope.setSFiled = function(num){
+            $scope.sfiled = num;
+            $scope.result = ""+$scope.sfiled+" "+$scope.bfiled;
+        }
+        $scope.setBFiled = function(num){
+            $scope.bfiled = num;
+            $scope.result = ""+$scope.sfiled+" "+$scope.bfiled;
+        }
     };
+
+    String.prototype.replaceAt=function(index, character) {
+        return this.substr(0, index) + character + this.substr(index+character.length);
+    }
 
     var firstApp = angular.module("baseBallApp", []);
     firstApp.controller("Controller", Controller);

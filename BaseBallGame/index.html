@@ -23,11 +23,21 @@
                 <center>
                     <form ng-submit="resInput()" class="pure-form">
                         <fieldset>
-                            <input type="number" ng-model="result" placeholder="write result">
+                            <input type="text" pattern="[0-2] [0-2]" maxlength="3" ng-model="result" placeholder="write result(* *)">
                             <input ng-if="gameStatus=='ready'" type="submit" id="submitBtn" class="pure-button pure-button-primary" value="start">
-                            <input ng-if="gameStatus=='play'" type="submit" id="submitBtn" class="pure-button-primary" value="submit">
-                            <input ng-if="gameStatus=='over'" type="submit" id="submitBtn" class="pure-button-primary" value="restart">
+                            <input ng-if="gameStatus=='play'" type="submit" id="submitBtn" class="pure-button pure-button-primary" value="submit">
+                            <input ng-if="gameStatus=='over'" type="submit" id="submitBtn" class="pure-button pure-button-primary" value="restart">
                         </fieldset>
+                    </form>
+                    <form ng-if="gameStatus=='play'">
+                            <label>Strike:{{result}} </label>
+                            <button class="pure-button" ng-class="{'pure-button-primary': sfiled==0}" ng-click="setSFiled(0)">0</button>
+                            <button class="pure-button" ng-class="{'pure-button-primary': sfiled==1}" ng-click="setSFiled(1)">1</button>
+                            <button class="pure-button" ng-class="{'pure-button-primary': sfiled==2}" ng-click="setSFiled(2)">2</button>
+                            <label>Ball</label>
+                            <button class="pure-button" ng-class="{'pure-button-primary': bfiled==0}" ng-click="setBFiled(0)">0</button>
+                            <button class="pure-button" ng-class="{'pure-button-primary': bfiled==1}" ng-click="setBFiled(1)">1</button>
+                            <button class="pure-button" ng-class="{'pure-button-primary': bfiled==2}" ng-click="setBFiled(2)">2</button>
                     </form>
                 </center>
             </div>
