@@ -22,9 +22,8 @@
         $scope.resInput = function(){
             if($scope.gameStatus == 'ready'){
                 $scope.gameStatus = 'play';
-
+                $scope.shouldBeFocus = true;
                 bot = new Bot();
-                checkResult = new CheckResult(false, 0, 0);
 
                 $scope.result = "";
                 $scope.botHistory = [];
@@ -32,11 +31,16 @@
 
                 botGuessNumbers = bot.getNextGuess();
                 $scope.botHistory.push({numbers:botGuessNumbers.toString()});
-//                $scope.botHistory.push({numbers:botGuessNumbers.toString(), checkResult:checkResult});
             }else if($scope.gameStatus == 'play'){
-                checkResult = new CheckResult(false, $scope.sfiled, $scope.bfiled);
+                checkResult = new CheckResult($scope.sfiled, $scope.bfiled);
 
                 $scope.resultHistory.push({numbers:botGuessNumbers.toString(), checkResult:checkResult});
+
+                if(checkResult.isSame){
+                    $scope.gameStatus = "over";
+                    console.log("it's over!");
+                    return ;
+                }
 
                 bot.guessResultIn(botGuessNumbers, checkResult)
                 botGuessNumbers = bot.getNextGuess();
@@ -46,8 +50,9 @@
                 $scope.result = "";
                 $scope.sfiled = 0;
                 $scope.bfiled = 0;
+                textFoucs();
             }else if($scope.gameStatus == 'over'){
-                $scope.gameStatus = 'ready';
+                $scope.setGameRestart();
             }
         };
         $scope.setSFiled = function(num){
@@ -57,6 +62,15 @@
         $scope.setBFiled = function(num){
             $scope.bfiled = num;
             $scope.result = ""+$scope.sfiled+" "+$scope.bfiled;
+        }
+        
+        $scope.setGameRestart = function(){
+            $scope.gameStatus = "ready";
+            $scope.resInput();
+            console.log($scope.gameStatus);
+        }
+        var textFoucs = function(){// for auto focus text input
+                $scope.shouldBeFocus = !$scope.shouldBeFocus;
         }
     };
 
@@ -88,5 +102,18 @@
                                 + '</span>'
 								+ '</p>'
         };
+    });
+    firstApp.directive('firstFocus', function($timeout, $parse){
+        return {
+            link: function(scope, element, attrs){
+                var model = $parse(attrs.firstFocus);
+                scope.$watch(model, function(value){
+                    console.log('value=', value);
+                    $timeout(function() {
+                        element[0].focus();
+                        });
+                });
+            }
+        }
     });
 })();

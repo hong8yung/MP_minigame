@@ -21,11 +21,9 @@ Bot.prototype = {
     },
     guessResultIn: function(guessed, checkResult){
         if(!checkResult.isSame){
-            console.log(this.remainders.size());
             this.history.push(new NumbersHistory(guessed, checkResult));
             var setReducer = new SetReducerFactory().getSetReducer(checkResult);
             this.remainders.reduce(setReducer(guessed));
-            console.log(setReducer);
             console.log(this.remainders.size());
         }
     }
@@ -95,23 +93,6 @@ Numbers.prototype = {
     }
 }
 
-function Checker(){}
-Checker.prototype = {
-    check: function(n1, n2){
-        var isSame = n1.equals(n2);
-        var strikeCount=0, ballCount=0;
-
-        for (var i=0; i<3; i++){
-            if(n1.at(i) == n2.at(i)) strikeCount++;
-            else{
-                for (var j=0; j<3; j++)
-                    if(i!=j && n1.at(i)==n2.at(j)) ballCount++;
-            }
-            return new checkResult(isSame, strikeCount, ballCount);
-        }
-    }
-}
-
 function Set(){
     this.elements = {};
     this.length = 0;
@@ -138,8 +119,8 @@ Set.prototype = {
     }
 }
 
-function CheckResult(isSame, strikeCount, ballCount){
-    this.isSame = isSame;
+function CheckResult(strikeCount, ballCount){
+    this.isSame = (strikeCount==3);
     this.strikeCount = strikeCount;
     this.ballCount = ballCount;
     this.isOut = (strikeCount==0 && ballCount==0);
