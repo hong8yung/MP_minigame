@@ -2,6 +2,7 @@
 <html ng-app="baseBallApp">
     <head>
         <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+        <link rel="stylesheet" href="style.css">
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
         <script src="Bot.js"></script>
         <script src="hongyung.js"></script>
@@ -29,15 +30,21 @@
                             <input ng-if="gameStatus=='over'" type="submit" id="submitBtn" class="pure-button pure-button-primary" value="restart">
                         </fieldset>
                     </form>
-                    <form ng-if="gameStatus=='play'">
-                            <label>Strike:{{result}} </label>
-                            <button class="pure-button" ng-class="{'pure-button-primary': sfiled==0}" ng-click="setSFiled(0)">0</button>
-                            <button class="pure-button" ng-class="{'pure-button-primary': sfiled==1}" ng-click="setSFiled(1)">1</button>
-                            <button class="pure-button" ng-class="{'pure-button-primary': sfiled==2}" ng-click="setSFiled(2)">2</button>
-                            <label>Ball</label>
-                            <button class="pure-button" ng-class="{'pure-button-primary': bfiled==0}" ng-click="setBFiled(0)">0</button>
-                            <button class="pure-button" ng-class="{'pure-button-primary': bfiled==1}" ng-click="setBFiled(1)">1</button>
-                            <button class="pure-button" ng-class="{'pure-button-primary': bfiled==2}" ng-click="setBFiled(2)">2</button>
+                    <form ng-if="gameStatus=='play'" class="pure-form pure-form-aligned">
+                        <fieldset>
+                            <div class="pure-control-group">
+                                <label class="lbl-auto">Strike:</label>
+                                <button class="pure-button" ng-class="{'pure-button-primary': sfiled==0}" ng-click="setSFiled(0)">0</button>
+                                <button class="pure-button" ng-class="{'pure-button-primary': sfiled==1}" ng-click="setSFiled(1)">1</button>
+                                <button class="pure-button" ng-class="{'pure-button-primary': sfiled==2}" ng-click="setSFiled(2)">2</button>
+                            </div>
+                            <div class="pure-control-group">
+                                <label class="lbl-auto">Ball:</label>
+                                <button class="pure-button" ng-class="{'pure-button-primary': bfiled==0}" ng-click="setBFiled(0)">0</button>
+                                <button class="pure-button" ng-class="{'pure-button-primary': bfiled==1}" ng-click="setBFiled(1)">1</button>
+                                <button class="pure-button" ng-class="{'pure-button-primary': bfiled==2}" ng-click="setBFiled(2)">2</button>
+                            </div>
+                        </fieldset>
                     </form>
                 </center>
             </div>

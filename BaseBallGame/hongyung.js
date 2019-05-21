@@ -31,7 +31,8 @@
                 $scope.resultHistory = [];
 
                 botGuessNumbers = bot.getNextGuess();
-                $scope.botHistory.push({numbers:botGuessNumbers.toString(), checkResult:checkResult});
+                $scope.botHistory.push({numbers:botGuessNumbers.toString()});
+//                $scope.botHistory.push({numbers:botGuessNumbers.toString(), checkResult:checkResult});
             }else if($scope.gameStatus == 'play'){
                 checkResult = new CheckResult(false, $scope.sfiled, $scope.bfiled);
 
@@ -40,7 +41,7 @@
                 bot.guessResultIn(botGuessNumbers, checkResult)
                 botGuessNumbers = bot.getNextGuess();
 
-                $scope.botHistory.push({numbers:botGuessNumbers.toString(), checkResult:checkResult});
+                $scope.botHistory.push({numbers:botGuessNumbers.toString()});
 
                 $scope.result = "";
                 $scope.sfiled = 0;
@@ -71,12 +72,20 @@
             ,scope: {
                 gameHistory: '=gameHistory'
             }
+            ,link: function(scope, element, attrs){
+                if(scope.gameHistory.checkResult == null)
+                    console.log(scope.gameHistory);
+                scope.isBotHistory = function(){
+                    return (scope.gameHistory.checkResult == null);
+                }
+            }
             ,template: '<p>'
 								+ '<p class="rbtn pure-button">{{gameHistory.numbers[0]}}</p>'
 								+ '<p class="rbtn pure-button">{{gameHistory.numbers[1]}}</p>'
 								+ '<p class="rbtn pure-button">{{gameHistory.numbers[2]}}</p>'
-								+ ' -> ' 
-								+ '<p class="rbtn pure-button">{{gameHistory.checkResult.strikeCount}}S  {{gameHistory.checkResult.ballCount}}B</p>'
+								+ '<span ng-hide="isBotHistory()"> -> ' 
+                                + '<p class="rbtn pure-button">{{gameHistory.checkResult.strikeCount}}S  {{gameHistory.checkResult.ballCount}}B</p>'
+                                + '</span>'
 								+ '</p>'
         };
     });
