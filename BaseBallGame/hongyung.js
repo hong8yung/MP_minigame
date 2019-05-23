@@ -25,6 +25,8 @@
                 $scope.shouldBeFocus = true;
                 bot = new Bot();
 
+                $scope.sfiled = 0;
+                $scope.bfiled = 0;
                 $scope.result = "";
                 $scope.botHistory = [];
                 $scope.resultHistory = [];
