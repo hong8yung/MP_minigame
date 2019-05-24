@@ -26,6 +26,9 @@ Bot.prototype = {
             this.remainders.reduce(setReducer(guessed));
             console.log(this.remainders.size());
         }
+    },
+    getProbability: function(){
+        return 1/this.remainders.length;
     }
 }
 

@@ -7,6 +7,7 @@
         $scope.resultHistory = [];
         $scope.sfiled = 0;
         $scope.bfiled = 0;
+        $scope.probability;
 
         var bot;
         var botGuessNumbers;
@@ -32,7 +33,7 @@
                 $scope.resultHistory = [];
 
                 botGuessNumbers = bot.getNextGuess();
-                $scope.botHistory.push({numbers:botGuessNumbers.toString()});
+                $scope.botHistory.push({numbers:botGuessNumbers.toString(), probability: (bot.getProbability()*100).toFixed(2)});
             }else if($scope.gameStatus == 'play'){
                 checkResult = new CheckResult($scope.sfiled, $scope.bfiled);
 
@@ -47,7 +48,7 @@
                 bot.guessResultIn(botGuessNumbers, checkResult)
                 botGuessNumbers = bot.getNextGuess();
 
-                $scope.botHistory.push({numbers:botGuessNumbers.toString()});
+                $scope.botHistory.push({numbers:botGuessNumbers.toString(), probability: (bot.getProbability()*100).toFixed(2)});
 
                 $scope.result = "";
                 $scope.sfiled = 0;
@@ -101,6 +102,8 @@
 								+ '<p class="rbtn pure-button">{{gameHistory.numbers[2]}}</p>'
 								+ '<span ng-hide="isBotHistory()"> -> ' 
                                 + '<p class="rbtn pure-button">{{gameHistory.checkResult.strikeCount}}S  {{gameHistory.checkResult.ballCount}}B</p>'
+                                + '</span>'
+                                + '<span ng-if="isBotHistory()"> {{gameHistory.probability}}'
                                 + '</span>'
 								+ '</p>'
         };
